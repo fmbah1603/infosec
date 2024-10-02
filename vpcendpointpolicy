@@ -1,0 +1,20 @@
+{
+  "Version": "2012-10-17",
+  "Id": "Policy1415115909152",
+  "Statement": [
+    {
+      "Sid": "Access-to-specific-VPCE-only",
+      "Principal": "*",
+      "Action": "s3:GetObject",
+      "Effect": "Allow",
+      "Resource": [
+        "arn:aws:s3:::DOC-EXAMPLE-BUCKET/*"
+      ],
+      "Condition": {
+        "StringEquals": {
+          "aws:sourceVpce": "vpce-1a2b3c4d"
+        }
+      }
+    }
+  ]
+}
