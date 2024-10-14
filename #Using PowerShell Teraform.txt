@@ -1,0 +1,30 @@
+clea#Using PowerShell
+ 
+$GITLAB_ACCESS_TOKEN=""
+$TF_STATE_NAME="sbx_west_devsecops"
+terraform init `
+    -backend-config="address=https://cfsr.sso.dcn/api/v4/projects/27003/terraform/state/$TF_STATE_NAME" `
+    -backend-config="lock_address=https://cfsr.sso.dcn/api/v4/projects/27003/terraform/state/$TF_STATE_NAME/lock" `
+    -backend-config="unlock_address=https://cfsr.sso.dcn/api/v4/projects/27003/terraform/state/$TF_STATE_NAME/lock" `
+    -backend-config="username=FongwaAcha" `
+    -backend-config="password=$GITLAB_ACCESS_TOKEN" `
+    -backend-config="lock_method=POST" `
+    -backend-config="unlock_method=DELETE" `
+    -backend-config="retry_wait_min=5"
+ 
+  terraform.exe plan -var-file="../../../config/$TF_STATE_NAME.tfvars.json"
+
+  terraform.exe apply -var-file="../../../config/$TF_STATE_NAME.tfvars.json"
+
+(if change the backend address or make any change to back end address then add reconfigure or migrate state)
+$GITLAB_ACCESS_TOKEN=""
+$TF_STATE_NAME="sbx_west_devsecops"
+terraform init -reconfigure `
+    -backend-config="address=https://cfsr.sso.dcn/api/v4/projects/27003/terraform/state/$TF_STATE_NAME" `
+    -backend-config="lock_address=https://cfsr.sso.dcn/api/v4/projects/27003/terraform/state/$TF_STATE_NAME/lock" `
+    -backend-config="unlock_address=https://cfsr.sso.dcn/api/v4/projects/27003/terraform/state/$TF_STATE_NAME/lock" `
+    -backend-config="username=" `
+    -backend-config="password=$GITLAB_ACCESS_TOKEN" `
+    -backend-config="lock_method=POST" `
+    -backend-config="unlock_method=DELETE" `
+    -backend-config="retry_wait_min=5"
